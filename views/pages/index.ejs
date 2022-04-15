@@ -12,7 +12,7 @@
     <% tasks.forEach(function(r) { %>
         <button id='<%= r.id %>' 
             onClick='javascript:logTask(<%= r.id %>);'><%= r.name %></button>
-    <% }); %>
+    <% }); console.log("HEY");%>
 
     <script>
     let currentTaskId = null;

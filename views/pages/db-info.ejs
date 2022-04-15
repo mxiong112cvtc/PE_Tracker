@@ -7,10 +7,16 @@
 
 <body>
     <h1>Database Tables</h1>
-    
     <ul>
         <% tables.forEach(function(r) { %>
             <li><%= r.table %>: <%= r.column %> (<%= r.type %>)</li>
+        <% }); %>
+    </ul>
+
+    <h1>Observations</h1>
+    <ul>
+        <% obs.forEach(function(r) { %>
+            <li><%= r.tasks_id %>: <%= r.duration.minutes || "00" %>:<%= r.duration.seconds || "00" %></li>
         <% }); %>
     </ul>
 </body>

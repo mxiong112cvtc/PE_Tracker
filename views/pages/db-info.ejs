@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Database Info</title>
+</head>
+
+<body>
+    <h1>Database Tables</h1>
+    
+    <ul>
+        <% tables.forEach(function(r) { %>
+            <li><%= r.table %>: <%= r.column %> (<%= r.type %>)</li>
+        <% }); %>
+    </ul>
+</body>
+</html>

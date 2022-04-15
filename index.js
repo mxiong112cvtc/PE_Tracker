@@ -11,7 +11,7 @@ const pool = new Pool ({
 });
 
 express()
-    .use(expres.static(path.join(__dirname, 'public')))
+    .use(express.static(path.join(__dirname, 'public')))
     .use(express.json())
     .use(express.urlencoded({
         extended: true

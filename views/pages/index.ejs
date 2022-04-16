@@ -9,6 +9,8 @@
 <body>
     <h1>PE Tracker</h1>
 
+    <!-- TODO: Figure out why this doesn't work on heroku server-->
+    <% console.log(tasks); %>
     <% tasks.forEach(function(r) { %>
         <button id='<%= r.id %>' 
             onClick='javascript:logTask(<%= r.id %>);'><%= r.name %></button>

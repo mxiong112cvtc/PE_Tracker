@@ -9,8 +9,8 @@
 <body>
     <h1>PE Tracker</h1>
 
-    <% tasks.forEach(function(r) { %>
-        <button id='<%= r.id %>' onClick='javascript:logTask(<%= r.id %>);'><%= r.name %></button>
+    <% tasks.forEach(function(r) { %>   
+    <button id='<%= r.id %>' onClick='javascript:logTask(<%= r.id %>);'><%= r.name %></button>
     <% }); %>
 
     <script>

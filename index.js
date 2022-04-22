@@ -27,7 +27,7 @@ SELECT * FROM tasks ORDER BY id ASC`);
 
             const locals = {
                 'tasks': (tasks) ? tasks.rows : null
-            }
+            };
             res.render('pages/index', locals);
             client.release();
         } 
@@ -57,7 +57,7 @@ SELECT * FROM observations`);
             const locals = {
                 'tables': (tables) ? tables.rows : null,
                 'obs': (obs) ? obs.rows : null
-            }
+            };
 
             res.render('pages/db-info', locals);
             client.release();
@@ -84,7 +84,7 @@ RETURNING id AS new_id;`);
 
             const result = {
                 'response': (sqlInsert) ? (sqlInsert.rows[0]) : null
-            }
+            };
 
             res.set({
                 'Content-Type': 'application/json'

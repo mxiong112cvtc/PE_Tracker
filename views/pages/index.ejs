@@ -30,7 +30,7 @@
         let timer = null;
         let seconds = 0;
 
-        const logTask = async function(id) {
+        function logTask(id) {
             // Stop timer if we're tracking a task
             // Saves to database in stop timer
             if (currentTaskId != null) {
@@ -47,7 +47,7 @@
             console.log(currentTaskId);
         }
 
-        const startTimer = async function(id) {
+        function startTimer(id) {
             let timeLabel = document.querySelector("#timer" + id);
             let button = document.querySelector("#button" + id);
             button.innerHTML = "Stop";
@@ -65,7 +65,7 @@
             }, 1000);
         }
 
-        const stopTimer = async function(id) {
+        function stopTimer(id) {
             let button = document.querySelector("#button" + currentTaskId);
             button.innerHTML = "Start";
 

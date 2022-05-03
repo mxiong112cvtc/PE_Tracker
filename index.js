@@ -15,6 +15,7 @@ express()
     .use(express.json())
     .use(express.urlencoded({ extended: true }))
     .set('views', path.join(__dirname, 'views'))
+    .set('js', path.join(__dirname, 'js'))
     .set('view engine', 'ejs')
 
     .get('/', async(req, res) => {

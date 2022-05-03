@@ -82,13 +82,10 @@ express()
             const duration = req.body.duration;
 
             const sqlUpdate = await client.query(`
-                UPDATE observations (users_id, students_id, tasks_id, duration)
-                SET users_id = ${usersId},
-                    students_id = ${studentsID}, 
-                    tasks_id = ${taskId},
-                    duration = make_interval(secs => ${duration})
+                INSERT INTO observations (users_id, students_id, tasks_id, duration)
+                VALUES (${usersId}, ${studentsID}, ${taskId}, make_interval(secs => ${duration}))
                 RETURNING id AS new_id;
-                `);
+            `);
 
             console.log(`Tracking task ${taskId}`);
 
@@ -97,7 +94,8 @@ express()
             };
 
             res.set({
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',         
+                'Accept': 'application/json'
             });
             res.json({ requestBody: result });
             client.release();

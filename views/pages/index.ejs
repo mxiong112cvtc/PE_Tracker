@@ -35,19 +35,21 @@
             // Saves to database in stop timer
             if (currentTaskId != null) {
                 stopTimer(currentTaskId);
+                console.log("Stop tracking task " + id);
             }
             
             // Start new timer if we want to track a task with a different id
             if (currentTaskId != id) {
                 startTimer(id);
+                console.log("Tracking task " + id);
             }
 
             // Set current task
             currentTaskId = id;
-            console.log(currentTaskId);
         }
 
         function startTimer(id) {
+            console.log("Starting timer");
             let timeLabel = document.querySelector("#timer" + id);
             let button = document.querySelector("#button" + id);
             button.innerHTML = "Stop";
@@ -66,6 +68,7 @@
         }
 
         function stopTimer(id) {
+            console.log("Stopping timer");
             let button = document.querySelector("#button" + currentTaskId);
             button.innerHTML = "Start";
 
@@ -77,6 +80,7 @@
         }
 
         const saveToDB = async function(id) {
+            console.log("Saving");
             const response = await fetch('/log', {
                 method: 'POST',
                 headers: {
@@ -93,7 +97,7 @@
 
             const result = await response.json();
             console.log(result);
-        }
+        };
         
     </script>
 </body>

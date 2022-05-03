@@ -23,7 +23,8 @@ express()
 
             // Building a button
             const tasks = await client.query(`
-SELECT * FROM tasks ORDER BY id ASC`);
+                SELECT * FROM tasks ORDER BY id ASC;
+                `);
 
             const locals = {
                 'tasks': (tasks) ? tasks.rows : null
@@ -42,17 +43,22 @@ SELECT * FROM tasks ORDER BY id ASC`);
 
             // Default tables built into postgres, provides meta info
             const tables = await client.query(`
-SELECT c.relname AS table, a.attname AS column, t.typname AS type
-FROM pg_catalog.pg_class AS c
-LEFT JOIN pg_catalog.pg_attribute AS a
-ON c.oid = a.attrelid AND a.attnum > 0
-LEFT JOIN pg_catalog.pg_type AS t
-ON a.atttypid = t.oid
-WHERE c.relname IN ('users', 'observations', 'students', 'schools', 'tasks')
-ORDER BY c.relname, a.attnum;`);
+                SELECT c.relname AS table, a.attname AS column, t.typname AS type
+                FROM pg_catalog.pg_class AS c
+                LEFT JOIN pg_catalog.pg_attribute AS a
+                ON c.oid = a.attrelid AND a.attnum > 0
+                LEFT JOIN pg_catalog.pg_type AS t
+                ON a.atttypid = t.oid
+                WHERE c.relname IN ('users', 'observations', 'students', 'schools', 'tasks')
+                ORDER BY c.relname, a.attnum;
+                `);
 
             const obs = await client.query(`
-SELECT * FROM observations`);
+                SELECT * 
+                FROM observations AS obs
+                LEFT JOIN tasks AS t 
+                ON t.id = obs.tasks_id;
+                `);
 
             const locals = {
                 'tables': (tables) ? tables.rows : null,
@@ -75,15 +81,19 @@ SELECT * FROM observations`);
             const taskId = req.body.task_id;
             const duration = req.body.duration;
 
-            const sqlInsert = await client.query(`
-INSERT INTO observations (users_id, students_id, tasks_id, duration)
-VALUES (${usersId}, ${studentsID}, ${taskId}, ${duration})
-RETURNING id AS new_id;`);
+            const sqlUpdate = await client.query(`
+                UPDATE observations (users_id, students_id, tasks_id, duration)
+                SET users_id = ${usersId},
+                    students_id = ${studentsID}, 
+                    tasks_id = ${taskId},
+                    duration = make_interval(secs => ${duration})
+                RETURNING id AS new_id;
+                `);
 
             console.log(`Tracking task ${taskId}`);
 
             const result = {
-                'response': (sqlInsert) ? (sqlInsert.rows[0]) : null
+                'response': (sqlUpdate) ? (sqlUpdate.rows[0]) : null
             };
 
             res.set({
